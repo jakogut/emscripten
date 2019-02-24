@@ -14,6 +14,7 @@ def get(ports, settings, shared):
     return []
 
   ports.fetch_project('sdl2-ttf', 'https://github.com/emscripten-ports/SDL2_ttf/archive/' + TAG + '.zip', 'SDL2_ttf-' + TAG)
+  libname = ports.get_lib_name('libSDL2_ttf')
 
   def create():
     sdl_ttf_h = os.path.join(ports.get_dir(), 'sdl2-ttf', 'SDL2_ttf-' + TAG, 'SDL_ttf.h')
@@ -36,11 +37,15 @@ def get(ports, settings, shared):
 
     shared.safe_ensure_dirs(os.path.dirname(o_s[0]))
     ports.run_commands(commands)
-    final = os.path.join(ports.get_build_dir(), 'sdl2-ttf', 'libsdl2_ttf.bc')
+    final = os.path.join(ports.get_build_dir(), 'sdl2-ttf', libname)
     shared.Building.link_to_object(o_s, final)
     return final
 
-  return [shared.Cache.get('sdl2-ttf', create, what='port')]
+  return [shared.Cache.get(libname, create, what='port')]
+
+
+def clear(ports, shared):
+  shared.Cache.erase_file(ports.get_lib_name('libSDL2_ttf'))
 
 
 def process_dependencies(settings):

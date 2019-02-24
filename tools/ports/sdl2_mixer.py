@@ -21,7 +21,7 @@ def get(ports, settings, shared):
     build_dir = os.path.join(ports.get_build_dir(), 'sdl2-mixer')
     dist_dir = os.path.join(ports.get_build_dir(), 'sdl2-mixer', 'dist')
     out = os.path.join(dist_dir, 'lib', 'libSDL2_mixer.a')
-    final = os.path.join(ports.get_build_dir(), 'sdl2-mixer', 'libsdl2_mixer.a')
+    final = os.path.join(ports.get_build_dir(), 'sdl2-mixer', 'libSDL2_mixer.a')
     shared.safe_ensure_dirs(build_dir)
 
     try:
@@ -34,7 +34,11 @@ def get(ports, settings, shared):
       os.chdir(cwd)
     return final
 
-  return [shared.Cache.get('sdl2-mixer', create, what='port')]
+  return [shared.Cache.get('libSDL2_mixer.a', create, what='port')]
+
+
+def clear(ports, shared):
+  shared.Cache.erase_file(ports.get_lib_name('libSDL2_mixer'))
 
 
 def process_dependencies(settings):

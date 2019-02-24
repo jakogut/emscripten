@@ -17,6 +17,7 @@ def get(ports, settings, shared):
   sdl_build = os.path.join(ports.get_build_dir(), 'sdl2')
   assert os.path.exists(sdl_build), 'You must use SDL2 to use SDL2_gfx'
   ports.fetch_project('sdl2-gfx', 'https://github.com/svn2github/sdl2_gfx/archive/' + TAG + '.zip', 'sdl2_gfx-' + TAG)
+  libname = ports.get_lib_name('libSDL2_gfx')
 
   def create():
     logging.info('building port: sdl2-gfx')
@@ -30,11 +31,15 @@ def get(ports, settings, shared):
     for header in ['SDL2_framerate.h', 'SDL2_gfxPrimitives_font.h', 'SDL2_gfxPrimitives.h', 'SDL2_imageFilter.h', 'SDL2_rotozoom.h']:
       shutil.copyfile(os.path.join(ports.get_dir(), 'sdl2-gfx', 'sdl2_gfx-' + TAG, header), os.path.join(ports.get_build_dir(), 'sdl2', 'include', 'SDL2', header))
 
-    final = os.path.join(dest_path, 'libsdl2_gfx.bc')
+    final = os.path.join(dest_path, libname)
     ports.build_port(dest_path, final, [dest_path], exclude_dirs=['test'])
     return final
 
-  return [shared.Cache.get('sdl2-gfx', create)]
+  return [shared.Cache.get(libname, create)]
+
+
+def clear(ports, shared):
+  shared.Cache.erase_file(ports.get_lib_name('libSDL2_gfx'))
 
 
 def process_args(ports, args, settings, shared):

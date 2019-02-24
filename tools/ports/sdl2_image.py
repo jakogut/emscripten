@@ -17,6 +17,14 @@ def get(ports, settings, shared):
   assert os.path.exists(sdl_build), 'You must use SDL2 to use SDL2_image'
   ports.fetch_project('sdl2-image', 'https://github.com/emscripten-ports/SDL2_image/archive/' + TAG + '.zip', 'SDL2_image-' + TAG)
 
+  settings.SDL2_IMAGE_FORMATS.sort()
+  formats = '-'.join(settings.SDL2_IMAGE_FORMATS)
+
+  libname = 'libSDL2_image'
+  if formats != '':
+    libname += '_' + formats
+  libname = ports.get_lib_name(libname)
+
   def create():
     # although we shouldn't really do this and could instead use '-Xclang
     # -isystem' as a kind of 'overlay' as sdl_mixer does,
@@ -41,18 +49,15 @@ def get(ports, settings, shared):
       o_s.append(o)
     shared.safe_ensure_dirs(os.path.dirname(o_s[0]))
     ports.run_commands(commands)
-    final = os.path.join(ports.get_build_dir(), 'sdl2-image', 'libsdl2_image.bc')
-    shared.Building.link_to_object(o_s, final)
+    final = os.path.join(ports.get_build_dir(), 'sdl2-image', libname)
+    ports.create_lib(final, o_s)
     return final
 
-  settings.SDL2_IMAGE_FORMATS.sort()
-  formats = '-'.join(settings.SDL2_IMAGE_FORMATS)
+  return [shared.Cache.get(libname, create, what='port')]
 
-  name = 'sdl2-image'
-  if formats != '':
-      name = name + '-' + formats
 
-  return [shared.Cache.get(name, create, what='port')]
+def clear(ports, shared):
+  shared.Cache.get_path(ports.get_lib_name('libSDL2_image'))
 
 
 def process_dependencies(settings):

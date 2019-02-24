@@ -17,6 +17,7 @@ def get(ports, settings, shared):
 
   ports.fetch_project(
     'Cocos2d', 'https://github.com/emscripten-ports/Cocos2d/archive/' + TAG + '.zip', 'Cocos2d-' + TAG)
+  libname = ports.get_lib_name('libcocos2d')
 
   def create():
     logging.info('building port: Cocos2d v3')
@@ -62,11 +63,15 @@ def get(ports, settings, shared):
       o_s.append(o)
     shared.safe_ensure_dirs(os.path.dirname(o_s[0]))
     ports.run_commands(commands)
-    final = os.path.join(ports.get_build_dir(), 'Cocos2d', 'libcocos2d.bc')
+    final = os.path.join(ports.get_build_dir(), 'Cocos2d', libname)
     shared.Building.link_to_object(o_s, final)
     return final
 
-  return [shared.Cache.get('cocos2d', create, what='port')]
+  return [shared.Cache.get(libname, create, what='port')]
+
+
+def clear(ports, shared):
+  shared.Cache.erase_file(ports.get_lib_name('libcocos2d'))
 
 
 def process_dependencies(settings):
