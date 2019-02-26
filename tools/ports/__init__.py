@@ -29,6 +29,7 @@ ports = [
 
 ports_by_name = {}
 
+
 def init():
   expected_attrs = ['get', 'clear', 'process_args', 'show']
   for port in ports:
@@ -36,5 +37,6 @@ def init():
     ports_by_name[name] = port
     for a in expected_attrs:
       assert hasattr(port, a), 'port %s is missing %s' % (port, a)
+
 
 init()

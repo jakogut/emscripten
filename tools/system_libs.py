@@ -792,7 +792,7 @@ class Ports(object):
         continue
       for f in files:
         ext = os.path.splitext(f)[1]
-        if (ext in ('.c', '.cpp')) and not any((excluded in f) for excluded in exclude_files):
+        if ext in ('.c', '.cpp') and not any((excluded in f) for excluded in exclude_files):
             srcs.append(os.path.join(root, f))
     include_commands = ['-I' + src_path]
     for include in includes:
