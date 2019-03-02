@@ -967,7 +967,9 @@ int getnameinfo(const struct sockaddr *addr, socklen_t addrlen, char *host, sock
 }
 
 // TODO:
-// const char *gai_strerror(int);
+const char *gai_strerror(int)
+{
+}
 
 
 
