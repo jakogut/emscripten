@@ -378,6 +378,12 @@ var SyscallsLibrary = {
         var argp = SYSCALLS.get();
         return FS.ioctl(stream, op, argp);
       }
+      case {{{ cDefine('FIOCLEX') }}}: {
+        return 0;
+      }
+      case {{{ cDefine('FIONCLEX') }}}: {
+        return 0;
+      }
       case {{{ cDefine('TIOCGWINSZ') }}}: {
         // TODO: in theory we should write to the winsize struct that gets
         // passed in, but for now musl doesn't read anything on it
