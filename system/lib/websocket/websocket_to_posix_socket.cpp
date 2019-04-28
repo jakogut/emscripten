@@ -12,7 +12,7 @@
 #include <arpa/inet.h>
 
 // Uncomment to enable debug printing
-// #define POSIX_SOCKET_DEBUG
+#define POSIX_SOCKET_DEBUG
 
 // Uncomment to enable more verbose debug printing (in addition to uncommenting POSIX_SOCKET_DEBUG)
 // #define POSIX_SOCKET_DEEP_DEBUG
