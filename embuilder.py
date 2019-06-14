@@ -66,12 +66,14 @@ SYSTEM_TASKS = [
     'libc++abi-mt',
     'libc-extras',
     'libc-mt',
-    'libc-sockets-proxy',
     'pthreads',
     'pthreads_stub',
     'ubsan-rt-wasm',
     'ubsan-minimal-rt-wasm',
 ]
+
+# TODO: When Wasm backend implements separating relocatable segments, add
+#     'libc-sockets-proxy' to above SYSTEM_TASKS list.
 
 for debug in ['', '_debug']:
   for noerrno in ['', '_noerrno']:
