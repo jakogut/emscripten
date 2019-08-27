@@ -1394,6 +1394,13 @@ var LibraryBrowser = {
     styleSheet.insertRule('canvas.emscripten { border: 1px solid black; cursor: none; }', 0);
   },
 
+  emscripten_set_element_style__proxy: 'sync',
+  emscripten_set_element_style__sig: 'viii',
+  emscripten_set_element_style: function(selector, property, value) {
+    var element = Module[selector];
+    if (element) element.style[property] = UTF8ToString(value);
+  },
+
   emscripten_set_canvas_size__proxy: 'sync',
   emscripten_set_canvas_size__sig: 'vii',
   emscripten_set_canvas_size: function(width, height) {

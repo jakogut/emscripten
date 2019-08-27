@@ -472,6 +472,13 @@ Functions
 
   Note that SDL’s ``SDL_ShowCursor`` command shows and hides the SDL cursor, not the OS one. This command is useful to hide the OS cursor if your app draws its own cursor.
 
+.. c:function:: void emscripten_set_element_style(char *selector, char *property, char *value)
+
+  Sets an inline style property of a given element
+
+  :param char *selector: Name of element to set a style property on
+  :param char *property: Name of property to set
+  :param char *value: Value to assign to style property
 
 .. c:function:: double emscripten_get_now(void)
 
