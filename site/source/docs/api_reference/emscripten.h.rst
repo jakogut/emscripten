@@ -458,6 +458,10 @@ Functions
   :rtype: double
   :return: The pixel ratio or 1.0 if not supported.
 
+.. c:function:: void emscripten_set_window_title(char *title)
+
+  Set the window title
+
 .. c:function:: void emscripten_hide_mouse(void)
 
   Hide the OS mouse cursor over the canvas.
