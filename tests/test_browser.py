@@ -3144,12 +3144,20 @@ window.close = function() {
   def test_sdl2_canvas_size(self):
     self.btest('sdl2_canvas_size.c', expected='1', args=['-s', 'USE_SDL=2'])
 
-  @requires_graphics_hardware
-  def test_sdl2_gl_read(self):
+  def _test_sdl2_gl_read_base(self, *args):
     # SDL, OpenGL, readPixels
     create_test_file('sdl2_gl_read.c', self.with_report_result(open(path_from_root('tests', 'sdl2_gl_read.c')).read()))
-    self.compile_btest(['sdl2_gl_read.c', '-o', 'something.html', '-s', 'USE_SDL=2'])
+    self.compile_btest(['sdl2_gl_read.c', '-o', 'something.html', '-s', 'USE_SDL=2'] + list(args))
     self.run_browser('something.html', '.', '/report_result?1')
+
+  @requires_graphics_hardware
+  def test_sdl2_gl_read(self):
+    self._test_sdl2_gl_read_base()
+
+  @requires_threads
+  @requires_graphics_hardware
+  def test_sdl2_gl_read_with_proxy_to_pthread(self):
+    self._test_sdl2_gl_read_base('-s', 'USE_PTHREADS=1', '-s', 'PROXY_TO_PTHREAD=1', '-s', 'OFFSCREEN_FRAMEBUFFER=1')
 
   @requires_graphics_hardware
   def test_sdl2_fog_simple(self):
